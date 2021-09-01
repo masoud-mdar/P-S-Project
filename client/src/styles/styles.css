@@ -64,3 +64,16 @@
     height: 10vh;
     border-bottom: 2px solid orange;
 }
+
+.list-page {
+    width: 100vw;
+    height: 85vh;
+    background-color: rgb(25,25,25);
+
+}
+
+.book {
+    width: 15vw;
+    height: 15vh;
+    border: 2px solid orange;
+}

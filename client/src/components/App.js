@@ -2,6 +2,8 @@ import React, {useState} from "react"
 
 import axios from "axios"
 import LoadPage from "./LoadPage"
+import MainPage from "./MainPage"
+import ListPage from "./ListPage"
 
 const App = () => {
 
@@ -9,29 +11,38 @@ const App = () => {
     const [isMainPage, setIsMainPage] = useState(true)
     const [isListPage, setIsListPage] = useState(false)
     const [isPanier, setIsPanier] = useState(false)
+    const [booksList, setBooksList] = useState([])
 
     const handleClick = (Event) => {
         const {name} = Event.target
 
         switch (name) {
             case "book-list" :
-                console.log("yessss")
-                setIsListPage(true)
-                setIsMainPage(false)
-                setIsPanier(false)
+                
+                setIsLoading(true)
+
+                fetch("https://henri-potier.techx.fr/books")
+
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+
+                        setIsLoading(false)
+                        setIsListPage(true)
+                        setIsMainPage(false)
+                        setIsPanier(false)
+
+                        setBooksList(data)
+                    })
+                    
                 break
 
             case "panier" :
                 setIsPanier(true)
                 setIsMainPage(false)
                 setIsListPage(false)
+                break
 
-            case "fetch" :
-                fetch("https://henri-potier.techx.fr/books")
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                    })
             default :
                 console.log(name)
         }
@@ -56,20 +67,21 @@ const App = () => {
 
                             {
                                 isMainPage ? (
-
-                                    <div className="main-page">
-                                        <div className="btn-wrapper">
-                                            <button name="book-list" onClick={handleClick} className="btn">Book List</button>
-                                            <button name="panier" onClick={handleClick} className="btn">Panier</button>
-                                            {/*<button name="fetch" onClick={handleClick} className="btn">Fetch Data</button>*/}
-                                        </div>
-                                        <div className="smile"></div>
-
-                                    </div>      
+                                    
+                                    <MainPage
+                                        data={{
+                                            handleClick: handleClick
+                                        }}
+                                    />
 
                                 ) : isListPage ? (
 
-                                    <div className="list-page"></div>
+                                    <ListPage
+                                        data={{
+                                            handleClick: handleClick,
+                                            booksList: booksList
+                                        }}
+                                    />
 
                                 ) : (
                                     <div className="panier"></div>
