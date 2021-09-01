@@ -20,6 +20,8 @@ const App = () => {
     const [isShowMore, setIsShowMore] = useState(false)
     const [panier, setPanier] = useState([])
     const [panierPopOut, setPanierPopOut] = useState(false)
+    const [offers, setOffers] = useState([])
+    const [bestOffer, setBestOffer] = useState({})
 
     const handleClick = (Event) => {
         const {name, id} = Event.target
@@ -58,11 +60,49 @@ const App = () => {
                 break
 
             case "panier" :
-                setIsPanier(true)
-                setIsMainPage(false)
-                setIsListPage(false)
-                setIsMoreInfo(false)
-                setSelectedBook("")
+
+                if (!isPanier && panier.length) {
+
+                    setIsLoading(true)
+
+                    // https://henri-potier.techx.fr/books/{ISBN1, ISBN2, ...}/commercialOffers
+
+                    let url = ""
+
+                    panier.forEach((item, index) => {
+                        if (!index) {
+                            url += item
+                        } else {
+                            url += `,${item}`
+                        }
+                    })
+
+                    console.log(url)
+
+                    fetch(`https://henri-potier.techx.fr/books/${url}/commercialOffers`)
+
+                        .then(response => response.json())
+                        .then(data => {
+
+                            console.log(data)
+                            setOffers(data)
+
+                            setIsLoading(false)
+
+                            setIsPanier(true)
+                            setIsMainPage(false)
+                            setIsListPage(false)
+                            setIsMoreInfo(false)
+                            setIsShowMore(false)
+                            setSelectedBook("")
+                        })
+
+
+
+                } else if (!panier.length) {
+                    //
+                }
+
                 break
 
             case "more-info" :
@@ -171,7 +211,9 @@ const App = () => {
 
                                     <Panier
                                         data={{
-                                            panier: panier
+                                            panier: panier,
+                                            bestOffer: bestOffer,
+                                            booksList: booksList
                                         }}
                                     />
 

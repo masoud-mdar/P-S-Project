@@ -13,7 +13,7 @@ const PopOut = (props) => {
     return (
         <div className="pop-out">
             <h4>
-                {selectedBookInfo.title} succussfully added to the Cart !
+                {selectedBookInfo.title} successfully added to the Cart !
             </h4>
         </div>
     )

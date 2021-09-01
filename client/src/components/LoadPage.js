@@ -4,7 +4,7 @@ const LoadPage = () => {
 
     return (
         <div>
-
+            Loading
         </div>
     )
 }
