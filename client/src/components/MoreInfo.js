@@ -2,6 +2,8 @@ import React from "react"
 
 const MoreInfo = (props) => {
 
+    console.log(props.data.panier.length)
+
     let selectedBookInfo = props.data.booksList.find(book => {
         if (book.isbn === props.data.selectedBook) {
             return true

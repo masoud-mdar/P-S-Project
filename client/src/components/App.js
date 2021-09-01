@@ -16,6 +16,7 @@ const App = () => {
     const [isMoreInfo, setIsMoreInfo] = useState(false)
     const [selectedBook, setSelectedBook] = useState("")
     const [isShowMore, setIsShowMore] = useState(false)
+    const [panier, setPanier] = useState([])
 
     const handleClick = (Event) => {
         const {name, id} = Event.target
@@ -66,11 +67,21 @@ const App = () => {
                 setIsMoreInfo(false)
                 setIsShowMore(false)
                 setSelectedBook("")
+                break
 
+            case "add-to-panier" :
+                setPanier(prevPanier => {
+                    prevPanier.push(id)
+                    return prevPanier
+                })
+                console.log(panier)
+                break
             default :
                 console.log(name)
         }
     }
+
+    
 
 
 
@@ -119,7 +130,8 @@ const App = () => {
                                             handleClick: handleClick,
                                             selectedBook: selectedBook,
                                             booksList: booksList,
-                                            isShowMore: isShowMore
+                                            isShowMore: isShowMore,
+                                            panier: panier
                                         }}
                                     />
                                 )
