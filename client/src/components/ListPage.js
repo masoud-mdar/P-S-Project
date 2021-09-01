@@ -24,7 +24,7 @@ const ListPage = (props) => {
                                         </p>
                                         <div className="book-btn-wrapper">
                                             <button>Add to Cart</button>
-                                            <button name="more-info" onClick={props.data.handleClick}>More info</button>
+                                            <button name="more-info" onClick={props.data.handleClick} id={book.isbn}>More info</button>
                                         </div>
                                     </div>
                                 </li>

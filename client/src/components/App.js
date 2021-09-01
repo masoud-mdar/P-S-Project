@@ -4,6 +4,7 @@ import axios from "axios"
 import LoadPage from "./LoadPage"
 import MainPage from "./MainPage"
 import ListPage from "./ListPage"
+import MoreInfo from "./MoreInfo"
 
 const App = () => {
 
@@ -13,9 +14,11 @@ const App = () => {
     const [isPanier, setIsPanier] = useState(false)
     const [booksList, setBooksList] = useState([])
     const [isMoreInfo, setIsMoreInfo] = useState(false)
+    const [selectedBook, setSelectedBook] = useState("")
+    const [isShowMore, setIsShowMore] = useState(false)
 
     const handleClick = (Event) => {
-        const {name} = Event.target
+        const {name, id} = Event.target
 
         switch (name) {
             case "book-list" :
@@ -32,6 +35,7 @@ const App = () => {
                         setIsListPage(true)
                         setIsMainPage(false)
                         setIsPanier(false)
+                        setSelectedBook("")
 
                         setBooksList(data)
                     })
@@ -42,11 +46,26 @@ const App = () => {
                 setIsPanier(true)
                 setIsMainPage(false)
                 setIsListPage(false)
+                setIsMoreInfo(false)
+                setSelectedBook("")
                 break
 
             case "more-info" :
                 setIsMoreInfo(true)
+                setSelectedBook(id)
                 break
+
+            case "show-more" :
+                setIsShowMore(true)
+                break
+
+            case "show-less" :
+                setIsShowMore(false)
+                break
+            case "synopsis-close" :
+                setIsMoreInfo(false)
+                setIsShowMore(false)
+                setSelectedBook("")
 
             default :
                 console.log(name)
@@ -90,6 +109,19 @@ const App = () => {
 
                                 ) : (
                                     <div className="panier"></div>
+                                )
+                            }
+
+                            {
+                                isMoreInfo && (
+                                    <MoreInfo
+                                        data={{
+                                            handleClick: handleClick,
+                                            selectedBook: selectedBook,
+                                            booksList: booksList,
+                                            isShowMore: isShowMore
+                                        }}
+                                    />
                                 )
                             }
 

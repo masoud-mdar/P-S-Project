@@ -152,6 +152,16 @@
 
 }
 
+.more-info {
+    position: absolute;
+    width: 50vw;
+    height: 60vh;
+    padding: 5px;
+    background-color: rgb(25,25,25);
+    color: rgba(255,255,255,.75);
+    overflow: auto;
+}
+
 
 .footer {
     width: 100vw;
