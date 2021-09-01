@@ -19,9 +19,9 @@ const ListPage = (props) => {
                                 <li className="book" key={book.isbn}>
                                     <img className="book-cover" src={`${book.cover}`} alt={book.title}></img>
                                     <div className="book-hover-div">
-                                        <p className="book-title">
+                                        <h5 className="book-title">
                                             {book.title}
-                                        </p>
+                                        </h5>
                                         <div className="book-btn-wrapper">
                                             <button name="add-to-panier" onClick={props.data.handleClick} id={book.isbn}>Add to Cart</button>
                                             <button name="more-info" onClick={props.data.handleClick} id={book.isbn}>More info</button>

@@ -6,6 +6,7 @@ import ListPage from "./ListPage"
 import MoreInfo from "./MoreInfo"
 import Panier from "./Panier"
 import Navbar from "./Navbar"
+import PopOut from "./PopOut"
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const App = () => {
     const [selectedBook, setSelectedBook] = useState("")
     const [isShowMore, setIsShowMore] = useState(false)
     const [panier, setPanier] = useState([])
+    const [panierPopOut, setPanierPopOut] = useState(false)
 
     const handleClick = (Event) => {
         const {name, id} = Event.target
@@ -83,10 +85,23 @@ const App = () => {
                 break
 
             case "add-to-panier" :
+
                 setPanier(prevPanier => {
                     prevPanier.push(id)
                     return prevPanier
                 })
+
+                setIsShowMore(false)
+                setIsMoreInfo(false)
+
+                setSelectedBook(id)
+
+                setPanierPopOut(true)
+
+                setTimeout(() => {
+                    setPanierPopOut(false)
+                }, 2000)
+
                 break
 
             case "nav-home-btn" :
@@ -170,6 +185,17 @@ const App = () => {
                                             booksList: booksList,
                                             isShowMore: isShowMore,
                                             panier: panier
+                                        }}
+                                    />
+                                )
+                            }
+
+                            {
+                                panierPopOut && (
+                                    <PopOut
+                                        data={{
+                                            selectedBook: selectedBook,
+                                            booksList: booksList
                                         }}
                                     />
                                 )
