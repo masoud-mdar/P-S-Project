@@ -30,6 +30,10 @@
     color: rgba(255,255,255,.75);
 }
 
+.nav-btn-wrapper {
+    position: relative;
+}
+
 .nav-btn {
     margin-left: 2vw;
     padding-bottom: 3px;
@@ -43,6 +47,19 @@
 
 .nav-btn:hover {
     border-color: rgba(255,255,255,.75);
+}
+
+.nav-panier-counter {
+    position: absolute;
+    right: 5%;
+    width: 1vw;
+    height: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: orange;
+    font-family: monospace;
+    font-size: 1rem;
 }
 
 .main-page {

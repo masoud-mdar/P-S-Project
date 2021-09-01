@@ -86,10 +86,14 @@ const App = () => {
 
             case "add-to-panier" :
 
-                setPanier(prevPanier => {
-                    prevPanier.push(id)
-                    return prevPanier
-                })
+                if (!panierPopOut) {
+                    setPanier(prevPanier => {
+                        prevPanier.push(id)
+                        return prevPanier
+                    })
+                }
+
+
 
                 setIsShowMore(false)
                 setIsMoreInfo(false)
