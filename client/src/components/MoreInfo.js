@@ -17,9 +17,12 @@ const MoreInfo = (props) => {
 
             <div className="synopsis-wrapper">
 
-                <h3>
+                <h4>
                     {selectedBookInfo.title}
-                </h3>
+                </h4>
+                <h5>
+                    {selectedBookInfo.price} €
+                </h5>
 
                 <p className="synopsis-first">{selectedBookInfo.synopsis[0]}</p>
 

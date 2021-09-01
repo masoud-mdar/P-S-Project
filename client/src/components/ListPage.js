@@ -22,6 +22,9 @@ const ListPage = (props) => {
                                         <h5 className="book-title">
                                             {book.title}
                                         </h5>
+                                        <h5>
+                                            {book.price} €
+                                        </h5>
                                         <div className="book-btn-wrapper">
                                             <button name="add-to-panier" onClick={props.data.handleClick} id={book.isbn}>Add to Cart</button>
                                             <button name="more-info" onClick={props.data.handleClick} id={book.isbn}>More info</button>
