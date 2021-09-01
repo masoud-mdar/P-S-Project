@@ -11,18 +11,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: rgb(25,25,25);
+    overflow: auto;
 }
 
 .nav-bar {
     width: 100vw;
-    height: 15vh;
+    height: 10vh;
     background-color: rgb(25,25,25);
     border-bottom: 2px solid orange;
 }
 
 .main-page {
     width: 100vw;
-    height: 85vh;
+    height: 90vh;
     background-color: rgb(25,25,25);
     display: flex;
     flex-direction: column;
@@ -67,13 +69,93 @@
 
 .list-page {
     width: 100vw;
-    height: 85vh;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: rgb(25,25,25);
+    overflow: auto;
 
 }
 
+.book-list {
+    width: 75vw;
+    height: 75vh;
+    margin: 2vh 5vw;
+    background-color: rgb(25,25,25);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: stretch;
+    justify-content: space-around;
+    list-style: none;
+    overflow: auto;
+}
+
 .book {
-    width: 15vw;
-    height: 15vh;
-    border: 2px solid orange;
+    width: 20vw;
+    height: 22vh;
+    margin: 5px;
+    position: relative;
+    border: 1px solid rgba(255,255,255,.75);
+    border-radius: 2px;
+    transition: 100ms;
+}
+
+.book-cover {
+    width: 100%;
+    height: 100%;
+}
+
+.book-hover-div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    color: rgba(255,255,255,.75);
+    opacity: 0;
+    transition: 300ms;
+}
+
+.book:hover {
+    border-color: rgb(25,25,25);
+}
+
+.book:hover .book-cover {
+    opacity: 0.1;
+}
+
+.book:hover .book-hover-div {
+    opacity: 1;
+}
+
+.book-btn-wrapper {
+    width: 20vw;
+    height: 10vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.book-btn-wrapper button {
+    padding-bottom: 2px;
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255,255,255,.75);
+    color: rgba(255,255,255,.75);
+    font-size: 1rem;
+    cursor: pointer;
+
+}
+
+
+.footer {
+    width: 100vw;
+    height: 10vh;
+    background-color: rgb(25,25,25);
+    border-top: 2px solid orange;
 }

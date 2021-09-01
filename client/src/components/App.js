@@ -12,6 +12,7 @@ const App = () => {
     const [isListPage, setIsListPage] = useState(false)
     const [isPanier, setIsPanier] = useState(false)
     const [booksList, setBooksList] = useState([])
+    const [isMoreInfo, setIsMoreInfo] = useState(false)
 
     const handleClick = (Event) => {
         const {name} = Event.target
@@ -34,13 +35,17 @@ const App = () => {
 
                         setBooksList(data)
                     })
-                    
+
                 break
 
             case "panier" :
                 setIsPanier(true)
                 setIsMainPage(false)
                 setIsListPage(false)
+                break
+
+            case "more-info" :
+                setIsMoreInfo(true)
                 break
 
             default :
@@ -87,6 +92,9 @@ const App = () => {
                                     <div className="panier"></div>
                                 )
                             }
+
+                            <div className="footer"></div>
+
                         </div>
 
                         
