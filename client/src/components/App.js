@@ -1,10 +1,11 @@
 import React, {useState} from "react"
 
-import axios from "axios"
 import LoadPage from "./LoadPage"
 import MainPage from "./MainPage"
 import ListPage from "./ListPage"
 import MoreInfo from "./MoreInfo"
+import Panier from "./Panier"
+import Navbar from "./Navbar"
 
 const App = () => {
 
@@ -22,25 +23,36 @@ const App = () => {
         const {name, id} = Event.target
 
         switch (name) {
+
             case "book-list" :
+
+                if (!booksList.length) {
+
+                    setIsLoading(true)
+
+                    fetch("https://henri-potier.techx.fr/books")
+
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+
+                            setIsLoading(false)
+                            setIsListPage(true)
+                            setIsMainPage(false)
+                            setIsPanier(false)
+                            setSelectedBook("")
+
+                            setBooksList(data)
+                        })
+
+                } else {
+
+                    setIsListPage(true)
+                    setIsMainPage(false)
+                    setIsPanier(false)
+                    setSelectedBook("")
+                }
                 
-                setIsLoading(true)
-
-                fetch("https://henri-potier.techx.fr/books")
-
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-
-                        setIsLoading(false)
-                        setIsListPage(true)
-                        setIsMainPage(false)
-                        setIsPanier(false)
-                        setSelectedBook("")
-
-                        setBooksList(data)
-                    })
-
                 break
 
             case "panier" :
@@ -63,6 +75,7 @@ const App = () => {
             case "show-less" :
                 setIsShowMore(false)
                 break
+
             case "synopsis-close" :
                 setIsMoreInfo(false)
                 setIsShowMore(false)
@@ -74,8 +87,17 @@ const App = () => {
                     prevPanier.push(id)
                     return prevPanier
                 })
-                console.log(panier)
                 break
+
+            case "nav-home-btn" :
+                setIsMainPage(true)
+                setIsMoreInfo(false)
+                setIsShowMore(false)
+                setIsPanier(false)
+                setIsListPage(false)
+                setSelectedBook("")
+                break
+
             default :
                 console.log(name)
         }
@@ -98,7 +120,15 @@ const App = () => {
 
                         <div className="container">
 
-                            <div className="nav-bar"></div>
+                            <Navbar
+                                data={{
+                                    handleClick: handleClick,
+                                    panier: panier,
+                                    isMainPage: isMainPage,
+                                    isListPage: isListPage,
+                                    isPanier: isPanier
+                                }}
+                            />
 
                             {
                                 isMainPage ? (
@@ -118,8 +148,16 @@ const App = () => {
                                         }}
                                     />
 
+                                ) : isPanier ? (
+
+                                    <Panier
+                                        data={{
+                                            panier: panier
+                                        }}
+                                    />
+
                                 ) : (
-                                    <div className="panier"></div>
+                                    <div></div>
                                 )
                             }
 
