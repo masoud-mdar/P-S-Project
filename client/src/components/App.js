@@ -7,6 +7,7 @@ import MoreInfo from "./MoreInfo"
 import Panier from "./Panier"
 import Navbar from "./Navbar"
 import PopOut from "./PopOut"
+import Footer from "./Footer"
 
 const App = () => {
 
@@ -115,7 +116,7 @@ const App = () => {
 
                                     let howMuchSlice = Math.floor(totalPrice/item.sliceValue)
                                     howMuchSlice *= item.value
-                                    total -= howMuchSlice
+                                    total = totalPrice - howMuchSlice
                                     if (total < pendingPrice) {
                                         pendingPrice = total
                                         setAppliedOffer(item.type)
@@ -337,7 +338,7 @@ const App = () => {
 
                                     let howMuchSlice = Math.floor(totalPrice/item.sliceValue)
                                     howMuchSlice *= item.value
-                                    total -= howMuchSlice
+                                    total = totalPrice - howMuchSlice
                                     if (total < pendingPrice) {
                                         pendingPrice = total
                                         setAppliedOffer(item.type)
@@ -457,7 +458,7 @@ const App = () => {
                                 )
                             }
 
-                            <div className="footer"></div>
+                            <Footer/>
 
                         </div>
 

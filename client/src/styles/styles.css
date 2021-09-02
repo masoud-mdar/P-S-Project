@@ -6,7 +6,7 @@
 
 p {
     color: rgba(255,255,255,.75);
-    letter-spacing: 0.5rem;
+    letter-spacing: 0.25rem;
     text-align: justify;
 }
 
@@ -23,6 +23,7 @@ a {
 
 h3 {
     font-family: monospace;
+    color: rgba(255,255,255,.75);
 }
 
 .container {
@@ -283,7 +284,7 @@ h3 {
 
 .empty-cart {
     width: 100vw;
-    height: 90vh;
+    height: 75vh;
     background-color: rgb(25,25,25);
     display: flex;
     flex-direction: column;
@@ -298,7 +299,7 @@ h3 {
 
 .full-cart {
     width: 100vw;
-    height: 90vh;
+    height: 75vh;
     background-color: rgb(25,25,25);
     display: flex;
     justify-content: center;
@@ -306,10 +307,10 @@ h3 {
 
 .panier-list {
     width: 50vw;
-    height: 70vh;
+    height: 60vh;
     margin-top: 10vh;
     margin-left: 5vw;
-    padding: 5vh 5vw;
+    padding: 5vh 5vw 0 5vw;
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: stretch;
@@ -328,7 +329,7 @@ h3 {
 
 .panier-price {
     width: 50vw;
-    height: 90vh;
+    height: 75vh;
     padding: 2vh 5vw;
     color: rgba(255,255,255,.75);
     display: flex;
@@ -371,9 +372,20 @@ h3 {
 
 .footer {
     width: 100vw;
-    height: 10vh;
+    height: 13vh;
+    padding: 0 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: rgb(25,25,25);
     border-top: 2px solid brown;
+}
+
+.footer .right-part {
+    width: 30vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 
