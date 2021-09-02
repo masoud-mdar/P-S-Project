@@ -6,6 +6,15 @@ const Navbar = (props) => {
 
     const selectedStyle = {"color": "brown"}
 
+    let howMany = 0
+
+    if (panier.length) {
+        console.log(panier)
+        panier.forEach(book => {
+            howMany += book.num
+        })
+    }
+
     return (
         <div className="nav-bar">
             <div className="left-nav">
@@ -19,7 +28,7 @@ const Navbar = (props) => {
                     <button name="book-list" onClick={props.data.handleClick} style={isListPage ? selectedStyle : {}} className="nav-btn">Book list</button>
                     <button name="panier" onClick={props.data.handleClick} style={isPanier ? selectedStyle : {}} className="nav-btn">Panier</button>
                     <div className="nav-panier-counter">
-                        {panier.length ? panier.length : ""}
+                        {howMany ? howMany : ""}
                     </div>
                 </div>
             </div>

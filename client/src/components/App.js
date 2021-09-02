@@ -100,7 +100,13 @@ const App = () => {
 
 
                 } else if (!panier.length) {
-                    //
+
+                    setIsPanier(true)
+                    setIsMainPage(false)
+                    setIsListPage(false)
+                    setIsMoreInfo(false)
+                    setIsShowMore(false)
+                    setSelectedBook("")
                 }
 
                 break
@@ -126,11 +132,41 @@ const App = () => {
 
             case "add-to-panier" :
 
+                // [{isbn:"", num: int}]
+
                 if (!panierPopOut) {
-                    setPanier(prevPanier => {
-                        prevPanier.push(id)
-                        return prevPanier
-                    })
+
+                    if (panier.length) {
+
+                        let index = panier.findIndex(item => {
+                            return item.isbn === id
+                        })
+
+                        if (index < 0) {
+
+                            setPanier(prevPanier => {
+                                prevPanier.push({isbn: id, num: 1})
+                                return prevPanier
+                            })
+
+                        } else {
+
+                            let tempArr = [...panier]
+                            let book = tempArr[index]
+                            book.num = book.num + 1
+                            
+                            tempArr.splice(index, 1, book)
+
+                            setPanier(tempArr) 
+                        }
+
+                    } else {
+
+                        setPanier(prevPanier => {
+                            prevPanier.push({isbn: id, num: 1})
+                            return prevPanier
+                        })                    
+                    }
                 }
 
 
@@ -211,6 +247,7 @@ const App = () => {
 
                                     <Panier
                                         data={{
+                                            handleClick: handleClick,
                                             panier: panier,
                                             bestOffer: bestOffer,
                                             booksList: booksList
