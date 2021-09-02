@@ -20,8 +20,9 @@ const App = () => {
     const [isShowMore, setIsShowMore] = useState(false)
     const [panier, setPanier] = useState([])
     const [panierPopOut, setPanierPopOut] = useState(false)
-    const [offers, setOffers] = useState([])
-    const [bestOffer, setBestOffer] = useState({})
+    const [offers, setOffers] = useState({})
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [bestPrice, setBestPrice] = useState(0)
 
     const handleClick = (Event) => {
         const {name, id} = Event.target
@@ -44,7 +45,7 @@ const App = () => {
                             setIsListPage(true)
                             setIsMainPage(false)
                             setIsPanier(false)
-                            setSelectedBook("")
+                            !panierPopOut && setSelectedBook("")
 
                             setBooksList(data)
                         })
@@ -54,7 +55,7 @@ const App = () => {
                     setIsListPage(true)
                     setIsMainPage(false)
                     setIsPanier(false)
-                    setSelectedBook("")
+                    !panierPopOut && setSelectedBook("")
                 }
                 
                 break
@@ -69,15 +70,15 @@ const App = () => {
 
                     let url = ""
 
-                    panier.forEach((item, index) => {
-                        if (!index) {
-                            url += item
-                        } else {
-                            url += `,${item}`
+                    panier.forEach(item => {
+                        for (let i=0; i<item.num; i++) {
+                            if (url === "") {
+                                url += item.isbn
+                            } else {
+                                url += `,${item.isbn}`
+                            }
                         }
                     })
-
-                    console.log(url)
 
                     fetch(`https://henri-potier.techx.fr/books/${url}/commercialOffers`)
 
@@ -85,6 +86,44 @@ const App = () => {
                         .then(data => {
 
                             console.log(data)
+
+                            ///// ***** find the best offer ***** /////
+
+                            let pendingPrice = totalPrice
+                            let total = 0
+                            data.offers.forEach(item => {
+
+                                if (item.type === "percentage") {
+
+                                    let percMoney = totalPrice * (item.value/100)
+                                    total = totalPrice - percMoney
+                                    if (total < pendingPrice) {
+                                        pendingPrice = total
+                                    }
+
+                                } else if (item.type === "minus") {
+
+                                    total = totalPrice - (item.value)
+                                    if (total < pendingPrice) {
+                                        pendingPrice = total
+                                    }
+
+                                } else if (item.type === "slice" && totalPrice >= item.sliceValue) {
+
+                                    let howMuchSlice = Math.floor(totalPrice/item.sliceValue)
+                                    howMuchSlice *= item.value
+                                    total -= howMuchSlice
+                                    if (total < pendingPrice) {
+                                        pendingPrice = total
+                                    }
+                                }
+
+                                setBestPrice(pendingPrice)
+                            })
+
+
+                            ///// ***** /////
+
                             setOffers(data)
 
                             setIsLoading(false)
@@ -94,7 +133,8 @@ const App = () => {
                             setIsListPage(false)
                             setIsMoreInfo(false)
                             setIsShowMore(false)
-                            setSelectedBook("")
+                            !panierPopOut && setSelectedBook("")
+
                         })
 
 
@@ -106,7 +146,7 @@ const App = () => {
                     setIsListPage(false)
                     setIsMoreInfo(false)
                     setIsShowMore(false)
-                    setSelectedBook("")
+                    !panierPopOut && setSelectedBook("")
                 }
 
                 break
@@ -127,7 +167,7 @@ const App = () => {
             case "synopsis-close" :
                 setIsMoreInfo(false)
                 setIsShowMore(false)
-                setSelectedBook("")
+                !panierPopOut && setSelectedBook("")
                 break
 
             case "add-to-panier" :
@@ -154,7 +194,7 @@ const App = () => {
                             let tempArr = [...panier]
                             let book = tempArr[index]
                             book.num = book.num + 1
-                            
+
                             tempArr.splice(index, 1, book)
 
                             setPanier(tempArr) 
@@ -167,6 +207,21 @@ const App = () => {
                             return prevPanier
                         })                    
                     }
+
+                    
+                    ////// ***** total price ***** /////
+
+                    let book = booksList.find(book => {
+                        if (book.isbn === id) {
+                            return true
+                        } else {
+                            return false
+                        }
+                    })
+
+                    setTotalPrice(prevTotalPrice => prevTotalPrice += book.price)
+
+                    ///// ***** /////
                 }
 
 
@@ -190,7 +245,116 @@ const App = () => {
                 setIsShowMore(false)
                 setIsPanier(false)
                 setIsListPage(false)
-                setSelectedBook("")
+                !panierPopOut && setSelectedBook("")
+                break
+
+            case "remove-from-panier" :
+
+
+                ////// ***** total price ***** //////
+
+                let removedBook = booksList.find(book => {
+                    if (book.isbn === id) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+
+                setTotalPrice(prevTotalPrice => prevTotalPrice -= removedBook.price)
+
+                //////// ***** //////
+
+                let index = panier.findIndex(item => {
+                    return item.isbn === id
+                })
+
+                let tempArr = [...panier]
+
+                let book = tempArr[index] 
+
+                if (book.num > 1) {
+
+                    book.num = book.num - 1
+
+                    tempArr.splice(index, 1, book)
+
+                } else {
+                    tempArr.splice(index, 1)
+                }
+
+                setPanier(tempArr)
+
+                if (tempArr.length) {
+
+                    setIsLoading(true)
+
+                    let url = ""
+
+                    tempArr.forEach(item => {
+                        for (let i=0; i<item.num; i++) {
+                            if (url === "") {
+                                url += item.isbn
+                            } else {
+                                url += `,${item.isbn}`
+                            }
+                        }
+                    })
+
+                    fetch(`https://henri-potier.techx.fr/books/${url}/commercialOffers`)
+
+                        .then(response => response.json())
+                        .then(data => {
+
+                            ///// ***** find the best offer ***** /////
+
+                            let pendingPrice = totalPrice
+                            let total = 0
+                            data.offers.forEach(item => {
+
+                                if (item.type === "percentage") {
+
+                                    let percMoney = totalPrice * (item.value/100)
+                                    total = totalPrice - percMoney
+                                    if (total < pendingPrice) {
+                                        pendingPrice = total
+                                    }
+
+                                } else if (item.type === "minus") {
+
+                                    total = totalPrice - (item.value)
+                                    if (total < pendingPrice) {
+                                        pendingPrice = total
+                                    }
+
+                                } else if (item.type === "slice" && totalPrice >= item.sliceValue) {
+
+                                    let howMuchSlice = Math.floor(totalPrice/item.sliceValue)
+                                    howMuchSlice *= item.value
+                                    total -= howMuchSlice
+                                    if (total < pendingPrice) {
+                                        pendingPrice = total
+                                    }
+                                }
+
+                                setBestPrice(pendingPrice)
+                            })
+
+
+                            ///// ***** /////
+
+                            setOffers(data)
+
+                            setIsLoading(false)
+
+                            setIsPanier(true)
+                            setIsMainPage(false)
+                            setIsListPage(false)
+                            setIsMoreInfo(false)
+                            setIsShowMore(false)
+                        })
+                }
+
                 break
 
             default :
@@ -249,8 +413,10 @@ const App = () => {
                                         data={{
                                             handleClick: handleClick,
                                             panier: panier,
-                                            bestOffer: bestOffer,
-                                            booksList: booksList
+                                            booksList: booksList,
+                                            totalPrice: totalPrice,
+                                            bestPrice: bestPrice,
+                                            offers: offers
                                         }}
                                     />
 
@@ -266,8 +432,7 @@ const App = () => {
                                             handleClick: handleClick,
                                             selectedBook: selectedBook,
                                             booksList: booksList,
-                                            isShowMore: isShowMore,
-                                            panier: panier
+                                            isShowMore: isShowMore
                                         }}
                                     />
                                 )

@@ -2,7 +2,7 @@ import React from "react"
 
 const Panier = (props) => {
 
-    const {panier, bestOffer, booksList} = props.data
+    const {panier, booksList, totalPrice, bestPrice, offers} = props.data
 
     return (
         <div className="panier">
@@ -11,7 +11,7 @@ const Panier = (props) => {
 
                     <div className="empty-cart">
                         <h2>
-                            Nothing yet !
+                            Nothing here yet !
                         </h2>
 
                         <button name="book-list" onClick={props.data.handleClick} className="main-btn">Book List</button>
@@ -20,39 +20,78 @@ const Panier = (props) => {
                 ) : (
 
                     <div className="full-cart">
-                        <div className="panier-list">
-                            <ul>
-                                {
-                                    panier.map(item => {
-                                        let book = booksList.find(book => {
-
-                                            if (book.isbn === item) {
-                                                return true
-                                            } else {
-                                                return false
-                                            }
-                                        })
-                                        return (
-                                            <li className="book" key={book.isbn}>
-                                                <img className="book-cover" src={`${book.cover}`} alt={book.title}></img>
-                                                <div className="book-hover-div">
-                                                    <h5 className="book-title">
-                                                        {book.title}
-                                                    </h5>
-                                                    <h4>
-                                                        {book.price} €
-                                                    </h4>
-                                                    <div className="book-btn-wrapper">
-                                                        <button name="more-info" onClick={props.data.handleClick} id={book.isbn}>More info</button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        )
+                        <ul className="panier-list">
+                            {
+                                panier.map(item => {
+                                    let num = item.num
+                                    let book = booksList.find(book => {
+                                        if (book.isbn === item.isbn) {
+                                            return true
+                                        } else return false
                                     })
-                                }
-                            </ul>
+
+                                    return (
+                                        <li className="book panier-book" key={book.isbn}>
+                                            <img className="book-cover" src={`${book.cover}`} alt={book.title}></img>
+                                            <div className="book-hover-div">
+                                                <h5 className="book-title">
+                                                    {book.title}
+                                                </h5>
+                                                <h3>
+                                                    {book.price} €
+                                                </h3>
+                                                <h3>
+                                                    {num}
+                                                </h3>
+                                                <div className="book-btn-wrapper">
+                                                    <button name="remove-from-panier" onClick={props.data.handleClick} id={book.isbn}>Remove</button>
+                                                    <button name="more-info" onClick={props.data.handleClick} id={book.isbn}>More info</button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                        <div className="panier-price">
+                            <h3>
+                                Total Price without reduction: {totalPrice}
+                            </h3>
+
+                            <div className="offers-panier">
+                                <h3>
+                                    The offers available for this cart:
+                                </h3>
+                                <ul>
+                                    {
+                                        offers.offers.map(item => {
+                                            return (
+                                                <li key={Math.random() * Math.random()}>
+                                                    {
+                                                        item.type === "slice" && totalPrice >= item.sliceValue ? (
+                                                            <div>
+                                                                <p>
+                                                                    type of offer: {item.type}
+                                                                </p>
+                                                                <p>
+                                                                    value of offer: {item.value} {item.type === "percentage" ? "%" : "€"}
+                                                                </p>                                                                
+                                                            </div>
+                                                        ) : (
+                                                            <div></div>
+                                                        )
+                                                    }
+
+                                                </li>
+                                            )
+                                        })
+                                    }
+                                </ul>
+                            </div>
+                            <h3>
+                                Total Price after the best reduction: {bestPrice}
+                            </h3>
                         </div>
-                        <div className="panier-price"></div>
                     </div>
 
                 )
