@@ -6,7 +6,7 @@ import ListPage from "./ListPage"
 import MoreInfo from "./MoreInfo"
 import Panier from "./Panier"
 import Navbar from "./Navbar"
-import PopOut from "./PopOut"
+import PopUp from "./PopUp"
 import Footer from "./Footer"
 
 const App = () => {
@@ -20,7 +20,7 @@ const App = () => {
     const [selectedBook, setSelectedBook] = useState("")
     const [isShowMore, setIsShowMore] = useState(false)
     const [panier, setPanier] = useState([])
-    const [panierPopOut, setPanierPopOut] = useState(false)
+    const [panierPopUp, setPanierPopUp] = useState(false)
     const [offers, setOffers] = useState({})
     const [totalPrice, setTotalPrice] = useState(0)
     const [bestPrice, setBestPrice] = useState(0)
@@ -47,7 +47,7 @@ const App = () => {
                             setIsListPage(true)
                             setIsMainPage(false)
                             setIsPanier(false)
-                            !panierPopOut && setSelectedBook("")
+                            !panierPopUp && setSelectedBook("")
 
                             setBooksList(data)
                         })
@@ -57,7 +57,7 @@ const App = () => {
                     setIsListPage(true)
                     setIsMainPage(false)
                     setIsPanier(false)
-                    !panierPopOut && setSelectedBook("")
+                    !panierPopUp && setSelectedBook("")
                 }
                 
                 break
@@ -138,7 +138,7 @@ const App = () => {
                             setIsListPage(false)
                             setIsMoreInfo(false)
                             setIsShowMore(false)
-                            !panierPopOut && setSelectedBook("")
+                            !panierPopUp && setSelectedBook("")
 
                         })
 
@@ -151,7 +151,7 @@ const App = () => {
                     setIsListPage(false)
                     setIsMoreInfo(false)
                     setIsShowMore(false)
-                    !panierPopOut && setSelectedBook("")
+                    !panierPopUp && setSelectedBook("")
                 }
 
                 break
@@ -172,14 +172,14 @@ const App = () => {
             case "synopsis-close" :
                 setIsMoreInfo(false)
                 setIsShowMore(false)
-                !panierPopOut && setSelectedBook("")
+                !panierPopUp && setSelectedBook("")
                 break
 
             case "add-to-panier" :
 
                 // [{isbn:"", num: int}]
 
-                if (!panierPopOut) {
+                if (!panierPopUp) {
 
                     if (panier.length) {
 
@@ -236,11 +236,11 @@ const App = () => {
 
                 setSelectedBook(id)
 
-                setPanierPopOut(true)
+                setPanierPopUp(true)
 
                 setTimeout(() => {
-                    setPanierPopOut(false)
-                }, 2000)
+                    setPanierPopUp(false)
+                }, 1000)
 
                 break
 
@@ -250,7 +250,7 @@ const App = () => {
                 setIsShowMore(false)
                 setIsPanier(false)
                 setIsListPage(false)
-                !panierPopOut && setSelectedBook("")
+                !panierPopUp && setSelectedBook("")
                 break
 
             case "remove-from-panier" :
@@ -448,8 +448,8 @@ const App = () => {
                             }
 
                             {
-                                panierPopOut && (
-                                    <PopOut
+                                panierPopUp && (
+                                    <PopUp
                                         data={{
                                             selectedBook: selectedBook,
                                             booksList: booksList
