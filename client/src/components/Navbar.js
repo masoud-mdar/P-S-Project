@@ -9,7 +9,6 @@ const Navbar = (props) => {
     let howMany = 0
 
     if (panier.length) {
-        console.log(panier)
         panier.forEach(book => {
             howMany += book.num
         })

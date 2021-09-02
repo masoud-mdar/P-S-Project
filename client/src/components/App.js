@@ -144,7 +144,7 @@ const App = () => {
                     }
 
                     ////// ***** total price ***** /////
-                    totalPriceCalculator(booksList, id, setTotalPrice, true)
+                    totalPriceCalculator(booksList, id, totalPrice, setTotalPrice, true)
                 }
 
                 setIsShowMore(false)
@@ -170,10 +170,6 @@ const App = () => {
 
             case "remove-from-panier" :
 
-                ////// ***** total price ***** //////
-                totalPriceCalculator(booksList, id, setTotalPrice, false)
-                //////// ***** //////
-
                 let index = panier.findIndex(item => {
                     return item.isbn === id
                 })
@@ -196,6 +192,10 @@ const App = () => {
 
                 if (tempArr.length) {
 
+                    ////// ***** total price ***** //////
+                    let newPrice = totalPriceCalculator(booksList, id, totalPrice, setTotalPrice, false)
+                    //////// ***** //////
+
                     ///// ***** find the best offer ***** /////
 
                     let url = ""
@@ -210,7 +210,10 @@ const App = () => {
                         }
                     })
 
-                    offersFetcher(setIsLoading, setAppliedOffer, setBestPrice, setOffers, setIsPanier, setIsMainPage, setIsListPage, setIsMoreInfo, setIsShowMore, setSelectedBook, BASE_URL, url, totalPrice, panierPopUp, false)
+                    offersFetcher(setIsLoading, setAppliedOffer, setBestPrice, setOffers, setIsPanier, setIsMainPage, setIsListPage, setIsMoreInfo, setIsShowMore, setSelectedBook, BASE_URL, url, newPrice, panierPopUp, false)
+
+                } else {
+                    setTotalPrice(0)
                 }
                 break
 

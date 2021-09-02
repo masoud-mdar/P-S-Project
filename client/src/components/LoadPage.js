@@ -3,8 +3,11 @@ import React from "react"
 const LoadPage = () => {
 
     return (
-        <div>
-            Loading
+        <div className="loading">
+            <div>
+                <h1>Just a second...</h1>
+            </div>
+            <div className="loader"></div>
         </div>
     )
 }

@@ -11,5 +11,6 @@ import "./styles/moreInfo.css"
 import "./styles/panier.css"
 import "./styles/popUp.css"
 import "./styles/footer.css"
+import "./styles/loadPage.css"
 
 ReactDOM.render(<App />, document.getElementById("root"))

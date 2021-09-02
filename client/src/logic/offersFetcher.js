@@ -41,19 +41,24 @@ const offersFetcher = (setIsLoading, setAppliedOffer, setBestPrice, setOffers, s
                 }
 
                 setBestPrice(pendingPrice)
+
+                setOffers(data)
+
+                setIsLoading(false)
+    
+                setIsPanier(false)
+                setIsMainPage(true)
+                setIsListPage(false)
+                setIsMoreInfo(false)
+                setIsShowMore(false)
             })
-
-            ///// ***** /////
-
-            setOffers(data)
-
-            setIsLoading(false)
 
             setIsPanier(true)
             setIsMainPage(false)
-            setIsListPage(false)
-            setIsMoreInfo(false)
-            setIsShowMore(false)
+
+            ///// ***** /////
+
+
 
             if (add) {
 
