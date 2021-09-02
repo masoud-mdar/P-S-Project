@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Hairline&display=swap");
+
 * {
     margin: 0;
     padding: 0;
@@ -8,34 +10,41 @@ ul {
     list-style: none;
 }
 
-
-
-@media only screen and (min-width: 648px) {
-    a {
-        color: orange;
-        text-decoration: none;
-        letter-spacing: 0.25rem;
-        font-size: 1rem;
-    }
-
-    p {
-        color: rgba(255,255,255,.75);
-        letter-spacing: 0.25rem;
-        text-align: justify;
-    }
+button {
+    font-family: "Bungee Hairline", cursive;
+    font-weight: bold;
 }
 
 @media only screen and (max-width: 648px) {
     a {
         color: orange;
         text-decoration: none;
-        letter-spacing: 0.1rem;
         font-size: 0.5rem;
+        font-family: "Bungee Hairline", cursive;
     }
     p {
         color: rgba(255,255,255,.75);
         letter-spacing: 0.1rem;
         text-align: center;
+        font-family: monospace;
+    }
+}
+
+@media only screen and (min-width: 648px) {
+    a {
+        color: orange;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: bold;
+        font-family: "Bungee Hairline", cursive;
+    }
+
+    p {
+        color: rgba(255,255,255,.75);
+        letter-spacing: 0.25rem;
+        text-align: justify;
+        font-family: "Bungee Hairline", cursive;
+        font-weight: bold;
     }
 }
 

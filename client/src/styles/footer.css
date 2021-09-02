@@ -1,3 +1,8 @@
+.footer h3 {
+    font-family: "Annie Use Your Telescope", monospace;
+    letter-spacing: 0.1rem;
+}
+
 @media only screen and (min-width: 649px) {
     .footer {
         width: 100vw;
@@ -7,7 +12,7 @@
         align-items: center;
         justify-content: space-between;
         background-color: rgb(25,25,25);
-        border-top: 2px solid brown;
+        border-top: 3px solid brown;
     }
     .footer .right-part {
         width: 30vw;

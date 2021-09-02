@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap');
+
 @media only screen and (min-width: 648px) {
     .panier {
         width: 100vw;
@@ -16,6 +18,7 @@
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
+        font-family: "Annie Use Your Telescope", monospace;
     }
 
     .empty-cart h2 {
@@ -38,6 +41,7 @@
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
+        font-family: monospace;
     }
 
     .full-cart {
@@ -88,6 +92,7 @@
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
+        font-family: "Annie Use Your Telescope", monospace;
     }
 
     .empty-cart h2 {
@@ -111,6 +116,7 @@
         justify-content: center;
         align-items: center;
         font-size: 12px;
+        font-family: monospace;
         letter-spacing: 0.1rem;
         text-align: center;
     }

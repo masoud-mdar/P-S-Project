@@ -24,9 +24,9 @@ const Navbar = (props) => {
             </div>
             <div className="right-nav">
                 <div className="nav-btn-wrapper">
-                    <button name="nav-home-btn" onClick={props.data.handleClick} style={isMainPage ? selectedStyle : {}} className="nav-btn">Home Page</button>
-                    <button name="book-list" onClick={props.data.handleClick} style={isListPage ? selectedStyle : {}} className="nav-btn">Book list</button>
-                    <button name="panier" onClick={props.data.handleClick} style={isPanier ? selectedStyle : {}} className="nav-btn">Panier</button>
+                    <button name="nav-home-btn" onClick={props.data.handleClick} style={isMainPage ? selectedStyle : {}} className="nav-btn">Home</button>
+                    <button name="book-list" onClick={props.data.handleClick} style={isListPage ? selectedStyle : {}} className="nav-btn">List</button>
+                    <button name="panier" onClick={props.data.handleClick} style={isPanier ? selectedStyle : {}} className="nav-btn">Cart</button>
                     <div className="nav-panier-counter">
                         {howMany ? howMany : ""}
                     </div>
