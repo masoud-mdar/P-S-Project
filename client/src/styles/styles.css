@@ -4,21 +4,39 @@
     box-sizing: border-box;
 }
 
-p {
-    color: rgba(255,255,255,.75);
-    letter-spacing: 0.25rem;
-    text-align: justify;
-}
-
 ul {
     list-style: none;
 }
 
-a {
-    color: orange;
-    text-decoration: none;
-    letter-spacing: 0.25rem;
-    font-size: 1rem;
+
+
+@media only screen and (min-width: 648px) {
+    a {
+        color: orange;
+        text-decoration: none;
+        letter-spacing: 0.25rem;
+        font-size: 1rem;
+    }
+
+    p {
+        color: rgba(255,255,255,.75);
+        letter-spacing: 0.25rem;
+        text-align: justify;
+    }
+}
+
+@media only screen and (max-width: 648px) {
+    a {
+        color: orange;
+        text-decoration: none;
+        letter-spacing: 0.1rem;
+        font-size: 0.5rem;
+    }
+    p {
+        color: rgba(255,255,255,.75);
+        letter-spacing: 0.1rem;
+        text-align: center;
+    }
 }
 
 h3 {

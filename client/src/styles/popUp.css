@@ -1,15 +1,37 @@
-.pop-up {
-    width: 30vw;
-    height: 15vh;
-    position: absolute;
-    top: 5%;
-    padding: 2vh 2vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(25,25,25);
-    border: 2px solid orange;
-    border-radius: 3px;
-    color: rgba(255,255,255,.75);
-    letter-spacing: 2px;
+@media only screen and (min-width: 648px) {
+    .pop-up {
+        width: 30vw;
+        height: 15vh;
+        position: absolute;
+        top: 5%;
+        padding: 2vh 2vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(25,25,25);
+        border: 2px solid orange;
+        border-radius: 3px;
+        color: rgba(255,255,255,.75);
+        letter-spacing: 2px;
+    }
 }
+
+@media only screen and (max-width: 648px) {
+    .pop-up {
+        width: 70vw;
+        height: 10vh;
+        position: absolute;
+        top: 5%;
+        padding: 2vh 2vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(25,25,25);
+        border: 2px solid orange;
+        border-radius: 3px;
+        color: rgba(255,255,255,.75);
+        font-size: 15px;
+        letter-spacing: 1px;
+    }
+}
+
