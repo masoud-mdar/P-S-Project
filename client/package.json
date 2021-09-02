@@ -1,6 +1,5 @@
 {
   "name": "app-one",
-  "homepage": "https://masoud-mdar.github.io/P-S-Project/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
