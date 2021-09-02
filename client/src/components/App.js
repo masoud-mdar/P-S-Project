@@ -9,6 +9,12 @@ import Navbar from "./Navbar"
 import PopUp from "./PopUp"
 import Footer from "./Footer"
 
+import totalPriceCalculator from "../logic/totalPriceCalculator"
+import booksListFetcher from "../logic/bookListFetcher"
+import offersFetcher from "../logic/offersFetcher"
+
+import {BASE_URL} from "../utils/constants"
+
 const App = () => {
 
     const [isLoading, setIsLoading] = useState(false)
@@ -27,6 +33,7 @@ const App = () => {
     const [appliedOffer, setAppliedOffer] = useState("")
 
     const handleClick = (Event) => {
+
         const {name, id} = Event.target
 
         switch (name) {
@@ -35,22 +42,7 @@ const App = () => {
 
                 if (!booksList.length) {
 
-                    setIsLoading(true)
-
-                    fetch("https://henri-potier.techx.fr/books")
-
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data)
-
-                            setIsLoading(false)
-                            setIsListPage(true)
-                            setIsMainPage(false)
-                            setIsPanier(false)
-                            !panierPopUp && setSelectedBook("")
-
-                            setBooksList(data)
-                        })
+                    booksListFetcher(setIsLoading, setIsListPage, setIsMainPage, setIsPanier, setSelectedBook, setBooksList, panierPopUp, BASE_URL)
 
                 } else {
 
@@ -59,14 +51,13 @@ const App = () => {
                     setIsPanier(false)
                     !panierPopUp && setSelectedBook("")
                 }
-                
                 break
 
             case "panier" :
 
                 if (!isPanier && panier.length) {
 
-                    setIsLoading(true)
+                    ///// ***** find the best offer ***** /////
 
                     // https://henri-potier.techx.fr/books/{ISBN1, ISBN2, ...}/commercialOffers
 
@@ -82,67 +73,7 @@ const App = () => {
                         }
                     })
 
-                    fetch(`https://henri-potier.techx.fr/books/${url}/commercialOffers`)
-
-                        .then(response => response.json())
-                        .then(data => {
-
-                            console.log(data)
-
-                            ///// ***** find the best offer ***** /////
-
-                            let pendingPrice = totalPrice
-                            let total = 0
-                            data.offers.forEach(item => {
-
-                                if (item.type === "percentage") {
-
-                                    let percMoney = totalPrice * (item.value/100)
-                                    total = totalPrice - percMoney
-                                    if (total < pendingPrice) {
-                                        pendingPrice = total
-                                        setAppliedOffer(item.type)
-                                    }
-
-                                } else if (item.type === "minus") {
-
-                                    total = totalPrice - (item.value)
-                                    if (total < pendingPrice) {
-                                        pendingPrice = total
-                                        setAppliedOffer(item.type)
-                                    }
-
-                                } else if (item.type === "slice" && totalPrice >= item.sliceValue) {
-
-                                    let howMuchSlice = Math.floor(totalPrice/item.sliceValue)
-                                    howMuchSlice *= item.value
-                                    total = totalPrice - howMuchSlice
-                                    if (total < pendingPrice) {
-                                        pendingPrice = total
-                                        setAppliedOffer(item.type)
-                                    }
-                                }
-
-                                setBestPrice(pendingPrice)
-                            })
-
-
-                            ///// ***** /////
-
-                            setOffers(data)
-
-                            setIsLoading(false)
-
-                            setIsPanier(true)
-                            setIsMainPage(false)
-                            setIsListPage(false)
-                            setIsMoreInfo(false)
-                            setIsShowMore(false)
-                            !panierPopUp && setSelectedBook("")
-
-                        })
-
-
+                    offersFetcher(setIsLoading, setAppliedOffer, setBestPrice, setOffers, setIsPanier, setIsMainPage, setIsListPage, setIsMoreInfo, setIsShowMore, setSelectedBook, BASE_URL, url, totalPrice, panierPopUp, true)
 
                 } else if (!panier.length) {
 
@@ -153,7 +84,6 @@ const App = () => {
                     setIsShowMore(false)
                     !panierPopUp && setSelectedBook("")
                 }
-
                 break
 
             case "more-info" :
@@ -177,7 +107,7 @@ const App = () => {
 
             case "add-to-panier" :
 
-                // [{isbn:"", num: int}]
+                // panier's format: [{isbn:"", num: int}, {...}, ...]
 
                 if (!panierPopUp) {
 
@@ -213,29 +143,14 @@ const App = () => {
                         })                    
                     }
 
-                    
                     ////// ***** total price ***** /////
-
-                    let book = booksList.find(book => {
-                        if (book.isbn === id) {
-                            return true
-                        } else {
-                            return false
-                        }
-                    })
-
-                    setTotalPrice(prevTotalPrice => prevTotalPrice += book.price)
-
-                    ///// ***** /////
+                    totalPriceCalculator(booksList, id, setTotalPrice, true)
                 }
-
-
 
                 setIsShowMore(false)
                 setIsMoreInfo(false)
 
                 setSelectedBook(id)
-
                 setPanierPopUp(true)
 
                 setTimeout(() => {
@@ -255,19 +170,8 @@ const App = () => {
 
             case "remove-from-panier" :
 
-
                 ////// ***** total price ***** //////
-
-                let removedBook = booksList.find(book => {
-                    if (book.isbn === id) {
-                        return true
-                    } else {
-                        return false
-                    }
-                })
-
-                setTotalPrice(prevTotalPrice => prevTotalPrice -= removedBook.price)
-
+                totalPriceCalculator(booksList, id, setTotalPrice, false)
                 //////// ***** //////
 
                 let index = panier.findIndex(item => {
@@ -292,7 +196,7 @@ const App = () => {
 
                 if (tempArr.length) {
 
-                    setIsLoading(true)
+                    ///// ***** find the best offer ***** /////
 
                     let url = ""
 
@@ -306,63 +210,8 @@ const App = () => {
                         }
                     })
 
-                    fetch(`https://henri-potier.techx.fr/books/${url}/commercialOffers`)
-
-                        .then(response => response.json())
-                        .then(data => {
-
-                            ///// ***** find the best offer ***** /////
-
-                            let pendingPrice = totalPrice
-                            let total = 0
-                            data.offers.forEach(item => {
-
-                                if (item.type === "percentage") {
-
-                                    let percMoney = totalPrice * (item.value/100)
-                                    total = totalPrice - percMoney
-                                    if (total < pendingPrice) {
-                                        pendingPrice = total
-                                        setAppliedOffer(item.type)
-                                    }
-
-                                } else if (item.type === "minus") {
-
-                                    total = totalPrice - (item.value)
-                                    if (total < pendingPrice) {
-                                        pendingPrice = total
-                                        setAppliedOffer(item.type)
-                                    }
-
-                                } else if (item.type === "slice" && totalPrice >= item.sliceValue) {
-
-                                    let howMuchSlice = Math.floor(totalPrice/item.sliceValue)
-                                    howMuchSlice *= item.value
-                                    total = totalPrice - howMuchSlice
-                                    if (total < pendingPrice) {
-                                        pendingPrice = total
-                                        setAppliedOffer(item.type)
-                                    }
-                                }
-
-                                setBestPrice(pendingPrice)
-                            })
-
-
-                            ///// ***** /////
-
-                            setOffers(data)
-
-                            setIsLoading(false)
-
-                            setIsPanier(true)
-                            setIsMainPage(false)
-                            setIsListPage(false)
-                            setIsMoreInfo(false)
-                            setIsShowMore(false)
-                        })
+                    offersFetcher(setIsLoading, setAppliedOffer, setBestPrice, setOffers, setIsPanier, setIsMainPage, setIsListPage, setIsMoreInfo, setIsShowMore, setSelectedBook, BASE_URL, url, totalPrice, panierPopUp, false)
                 }
-
                 break
 
             default :
@@ -370,105 +219,86 @@ const App = () => {
         }
     }
 
-    
-
-
-
     return (
         <div>
+            {
+                isLoading ? (
+                    <LoadPage />
+                ) : (
+                    <div className="container">
 
-            <div>
-                {
-                    isLoading ? (
-
-                        <LoadPage />
-
-                    ) : (
-
-                        <div className="container">
-
-                            <Navbar
-                                data={{
-                                    handleClick: handleClick,
-                                    panier: panier,
-                                    isMainPage: isMainPage,
-                                    isListPage: isListPage,
-                                    isPanier: isPanier
-                                }}
-                            />
-
-                            {
-                                isMainPage ? (
+                        <Navbar
+                            data={{
+                                handleClick: handleClick,
+                                panier: panier,
+                                isMainPage: isMainPage,
+                                isListPage: isListPage,
+                                isPanier: isPanier
+                            }}
+                        />
+                        {
+                            isMainPage ? (
                                     
-                                    <MainPage
-                                        data={{
-                                            handleClick: handleClick
-                                        }}
-                                    />
+                                <MainPage
+                                    data={{
+                                        handleClick: handleClick
+                                    }}
+                                />
 
-                                ) : isListPage ? (
+                            ) : isListPage ? (
 
-                                    <ListPage
-                                        data={{
-                                            handleClick: handleClick,
-                                            booksList: booksList
-                                        }}
-                                    />
+                                <ListPage
+                                    data={{
+                                        handleClick: handleClick,
+                                        booksList: booksList
+                                    }}
+                                />
 
-                                ) : isPanier ? (
+                            ) : isPanier ? (
 
-                                    <Panier
-                                        data={{
-                                            handleClick: handleClick,
-                                            panier: panier,
-                                            booksList: booksList,
-                                            totalPrice: totalPrice,
-                                            bestPrice: bestPrice,
-                                            offers: offers,
-                                            appliedOffer: appliedOffer
-                                        }}
-                                    />
+                                <Panier
+                                    data={{
+                                        handleClick: handleClick,
+                                        panier: panier,
+                                        booksList: booksList,
+                                        totalPrice: totalPrice,
+                                        bestPrice: bestPrice,
+                                        offers: offers,
+                                        appliedOffer: appliedOffer
+                                    }}
+                                />
 
-                                ) : (
-                                    <div></div>
-                                )
-                            }
-
-                            {
-                                isMoreInfo && (
-                                    <MoreInfo
-                                        data={{
-                                            handleClick: handleClick,
-                                            selectedBook: selectedBook,
-                                            booksList: booksList,
-                                            isShowMore: isShowMore
-                                        }}
-                                    />
-                                )
-                            }
-
-                            {
-                                panierPopUp && (
-                                    <PopUp
-                                        data={{
-                                            selectedBook: selectedBook,
-                                            booksList: booksList
-                                        }}
-                                    />
-                                )
-                            }
-
-                            <Footer/>
-
-                        </div>
-
-                        
-                    )
-                }
-            </div>
-
+                            ) : (
+                                <div></div>
+                            )
+                        }
+                        {
+                            isMoreInfo && (
+                                <MoreInfo
+                                    data={{
+                                        handleClick: handleClick,
+                                        selectedBook: selectedBook,
+                                        booksList: booksList,
+                                        isShowMore: isShowMore
+                                    }}
+                                />
+                            )
+                        }
+                        {
+                            panierPopUp && (
+                                <PopUp
+                                    data={{
+                                        selectedBook: selectedBook,
+                                        booksList: booksList
+                                    }}
+                                />
+                            )
+                        }
+                        <Footer/>
+                    </div>        
+                )
+            }
         </div>
-
     )
 }
 
