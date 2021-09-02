@@ -2,7 +2,7 @@ import React from "react"
 
 const Panier = (props) => {
 
-    const {panier, booksList, totalPrice, bestPrice, offers} = props.data
+    const {panier, booksList, totalPrice, bestPrice, offers, appliedOffer} = props.data
 
     return (
         <div className="panier">
@@ -55,27 +55,27 @@ const Panier = (props) => {
                         </ul>
                         <div className="panier-price">
                             <h3>
-                                Total Price without reduction: {totalPrice}
+                                Total Price without reduction: {totalPrice} €
                             </h3>
 
                             <div className="offers-panier">
                                 <h3>
                                     The offers available for this cart:
                                 </h3>
-                                <ul>
+                                <ul className="price-list">
                                     {
                                         offers.offers.map(item => {
                                             return (
                                                 <li key={Math.random() * Math.random()}>
                                                     {
-                                                        item.type === "slice" && totalPrice >= item.sliceValue ? (
+                                                        (item.type !== "slice") || (item.type === "slice" && totalPrice >= item.sliceValue) ? (
                                                             <div>
                                                                 <p>
-                                                                    type of offer: {item.type}
+                                                                    Type of offer: {item.type}
                                                                 </p>
                                                                 <p>
-                                                                    value of offer: {item.value} {item.type === "percentage" ? "%" : "€"}
-                                                                </p>                                                                
+                                                                    Value of offer: {item.value} {item.type === "percentage" ? "%" : "€"}
+                                                                </p>                                                              
                                                             </div>
                                                         ) : (
                                                             <div></div>
@@ -89,8 +89,12 @@ const Panier = (props) => {
                                 </ul>
                             </div>
                             <h3>
-                                Total Price after the best reduction: {bestPrice}
+                                Applied offer: {appliedOffer}
                             </h3>
+                            <h3>
+                                Total Price after applying the best reduction: {bestPrice} €
+                            </h3>
+                            <a href="https://personal-library-masoud.netlify.app" target="_blank" rel="noreferrer">Try out our Personal Library application</a>
                         </div>
                     </div>
 

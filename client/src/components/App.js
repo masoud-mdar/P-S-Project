@@ -23,6 +23,7 @@ const App = () => {
     const [offers, setOffers] = useState({})
     const [totalPrice, setTotalPrice] = useState(0)
     const [bestPrice, setBestPrice] = useState(0)
+    const [appliedOffer, setAppliedOffer] = useState("")
 
     const handleClick = (Event) => {
         const {name, id} = Event.target
@@ -99,6 +100,7 @@ const App = () => {
                                     total = totalPrice - percMoney
                                     if (total < pendingPrice) {
                                         pendingPrice = total
+                                        setAppliedOffer(item.type)
                                     }
 
                                 } else if (item.type === "minus") {
@@ -106,6 +108,7 @@ const App = () => {
                                     total = totalPrice - (item.value)
                                     if (total < pendingPrice) {
                                         pendingPrice = total
+                                        setAppliedOffer(item.type)
                                     }
 
                                 } else if (item.type === "slice" && totalPrice >= item.sliceValue) {
@@ -115,6 +118,7 @@ const App = () => {
                                     total -= howMuchSlice
                                     if (total < pendingPrice) {
                                         pendingPrice = total
+                                        setAppliedOffer(item.type)
                                     }
                                 }
 
@@ -318,6 +322,7 @@ const App = () => {
                                     total = totalPrice - percMoney
                                     if (total < pendingPrice) {
                                         pendingPrice = total
+                                        setAppliedOffer(item.type)
                                     }
 
                                 } else if (item.type === "minus") {
@@ -325,6 +330,7 @@ const App = () => {
                                     total = totalPrice - (item.value)
                                     if (total < pendingPrice) {
                                         pendingPrice = total
+                                        setAppliedOffer(item.type)
                                     }
 
                                 } else if (item.type === "slice" && totalPrice >= item.sliceValue) {
@@ -334,6 +340,7 @@ const App = () => {
                                     total -= howMuchSlice
                                     if (total < pendingPrice) {
                                         pendingPrice = total
+                                        setAppliedOffer(item.type)
                                     }
                                 }
 
@@ -416,7 +423,8 @@ const App = () => {
                                             booksList: booksList,
                                             totalPrice: totalPrice,
                                             bestPrice: bestPrice,
-                                            offers: offers
+                                            offers: offers,
+                                            appliedOffer: appliedOffer
                                         }}
                                     />
 
