@@ -1,0 +1,79 @@
+.panier {
+    width: 100vw;
+    height: 90vh;
+    background-color: rgb(25,25,25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-cart {
+    width: 100vw;
+    height: 75vh;
+    background-color: rgb(25,25,25);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.empty-cart h2 {
+    color: orange;
+    letter-spacing: 2rem;
+}
+
+.full-cart {
+    width: 100vw;
+    height: 75vh;
+    background-color: rgb(25,25,25);
+    display: flex;
+    justify-content: center;
+}
+
+.panier-list {
+    width: 50vw;
+    height: 60vh;
+    margin-top: 10vh;
+    margin-left: 5vw;
+    padding: 5vh 5vw 0 5vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    justify-content: space-around;
+    border: 2px solid brown;
+    border-radius: 3px;
+    overflow: auto;
+}
+
+.panier-book {
+    width: 22vw;
+    height: 25vh;
+    margin-bottom: 3vh;
+}
+
+
+.panier-price {
+    width: 50vw;
+    height: 75vh;
+    padding: 2vh 5vw;
+    color: rgba(255,255,255,.75);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.offers-panier {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.price-list {
+    margin-top: 3vh;
+}
+
+.price-list li div {
+    margin-top: 3vh;
+}

@@ -1,0 +1,15 @@
+.pop-up {
+    width: 30vw;
+    height: 15vh;
+    position: absolute;
+    top: 5%;
+    padding: 2vh 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(25,25,25);
+    border: 2px solid orange;
+    border-radius: 3px;
+    color: rgba(255,255,255,.75);
+    letter-spacing: 2px;
+}

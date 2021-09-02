@@ -1,0 +1,17 @@
+.footer {
+    width: 100vw;
+    height: 13vh;
+    padding: 0 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(25,25,25);
+    border-top: 2px solid brown;
+}
+
+.footer .right-part {
+    width: 30vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
