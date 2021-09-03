@@ -4,8 +4,6 @@ const ListPage = (props) => {
 
     const {booksList} = props.data
 
-
-
     return (
 
         <div className="list-page">
@@ -31,8 +29,7 @@ const ListPage = (props) => {
                                         </div>
                                     </div>
                                 </li>
-                            )
-                            
+                            )                   
                         })
                     )
                 }

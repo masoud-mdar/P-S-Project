@@ -13,7 +13,6 @@ const Footer = () => {
                 <a href="https://github.com/masoud-mdar" target="_blank" rel="noreferrer">GitHub</a>
                 <a href="https://masoud-mdar.github.io/portfolio" target="_blank" rel="noreferrer">Portfolio</a>
             </div>
-
         </div>
     )
 }

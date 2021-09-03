@@ -15,8 +15,6 @@ const totalPriceCalculator = (booksList, id, totalPrice, setTotalPrice, add) => 
         setTotalPrice(prevTotalPrice => prevTotalPrice -= book.price)
         return (totalPrice - book.price)
     }
-
-    
 }
 
 export default totalPriceCalculator

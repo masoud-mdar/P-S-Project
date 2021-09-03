@@ -81,7 +81,6 @@ const Panier = (props) => {
                                                             <div></div>
                                                         )
                                                     }
-
                                                 </li>
                                             )
                                         })
@@ -97,12 +96,10 @@ const Panier = (props) => {
                             <a href="https://personal-library-masoud.netlify.app" target="_blank" rel="noreferrer">Try out our Personal Library application</a>
                         </div>
                     </div>
-
                 )
             }
         </div>
     )
 }
-
 
 export default Panier

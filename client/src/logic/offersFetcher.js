@@ -58,8 +58,6 @@ const offersFetcher = (setIsLoading, setAppliedOffer, setBestPrice, setOffers, s
 
             ///// ***** /////
 
-
-
             if (add) {
 
                 !panierPopUp && setSelectedBook("")
